@@ -8,8 +8,8 @@ class CargoDAL {
     async conectar() {
         this.#client = new Client({
             user: 'postgres',
-            host: 'unicode-containers-postgres-1',
-            database: 'unicode',
+            host: 'localhost',
+            database: 'sug',
             password: 'postgres123',
             port: 5432,
         });
