@@ -39,6 +39,9 @@
                           Nome
                       </th>
                       <th>
+                          Cargo
+                      </th>
+                      <th>
                           CPF/CNPJ
                       </th>
                       <th>
@@ -77,6 +80,9 @@
                       
                       <td >
                           {{colaborador.nome}}
+                      </td>
+                      <td >
+                          {{colaborador.cargo_nome}}
                       </td>
                       <td >
                           {{colaborador.cpf_cnpj}}

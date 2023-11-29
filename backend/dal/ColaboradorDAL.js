@@ -36,7 +36,7 @@ class ColaboradorDAL {
     }
 
     async getAll(filtro) {
-        let query = "SELECT * from colaboradores";
+        let query = "SELECT colaboradores.id, colaboradores.nome, cargo_id, cpf_cnpj, telefone, email, rua, bairro, numero, cidade, cep, cargos.nome as cargo_nome FROM colaboradores INNER JOIN cargos ON colaboradores.cargo_id = cargos.id";
 
         if (filtro != "")
             query = query + ` where ${filtro}`;
