@@ -34,7 +34,11 @@ class CargoController {
     static async delete(req, res, next) {
       let dal = new CargoDAL();
       let cargo = await dal.apagar(req.body.id);
-      return res.json({msg: "Cargo excluído com sucesso"});
+
+      if(cargo)
+        return res.json({msg: "Cargo excluído com sucesso"});
+      else
+        return res.json({msg: "Erro ao excluir o cargo. Verifique se não existe nenhum funcionário que tenha esse cargo."});
     }
 }
 

@@ -32,9 +32,12 @@
               </div>
               <div class="form-group">
                 <label for="inputName">Contato Responsavel</label>
-                <input type="text"  v-model="this.form.contato_responsavel" class="form-control">
+                <input type="text"  v-mask="['(##) ####-####', '(##) #####-####']" v-model="this.form.contato_responsavel" class="form-control">
               </div>
-              
+              <div class="form-group">
+                <label for="inputName">CNPJ</label>
+                <input type="text" v-mask="'##.###.###/####-##'" v-model="this.form.cnpj" class="form-control">
+              </div>
               
             </div>
             <!-- /.card-body -->
@@ -60,31 +63,42 @@ export default {
         id: 0,
         nome: "",
         nome_responsavel: "",
-        contato_responsavel: ""
+        contato_responsavel: "",
+        cnpj: ""
       },
     }
   },
   methods: {
       async salvar()
       {
-        if(!this.empresaId) {
-          await this.$api.post('/empresaexecutora/add', {id: this.form.id, nome: this.form.nome, nome_responsavel: this.form.nome_responsavel, contato_responsavel: this.form.contato_responsavel}).then(response => {
-            this.$swal.fire({
-                title: "Empresa executora adicionada!",
-                icon: "success"
+        if(this.form.nome != "" && this.nome_responsavel != "" && this.contato_responsavel != "" && this.form.cnpj != "")
+        {
+          if(!this.empresaId) {
+            await this.$api.post('/empresaexecutora/add', {id: this.form.id, nome: this.form.nome, nome_responsavel: this.form.nome_responsavel, contato_responsavel: this.form.contato_responsavel, cnpj: this.form.cnpj}).then(response => {
+              this.$swal.fire({
+                  title: "Empresa executora adicionada!",
+                  icon: "success"
+                });
               });
-            });
-            this.form.nome = "";
-          }
-          else {
-            await this.$api.post('/empresaexecutora/update', {id: this.form.id, nome: this.form.nome, nome_responsavel: this.form.nome_responsavel, contato_responsavel: this.form.contato_responsavel}).then(response => {
-            this.$swal.fire({
-                title: "Empresa executora atualizada!",
-                icon: "success"
+              this.form.nome = "";
+              this.form.nome_responsavel = "";
+              this.form.contato_responsavel = "";
+              this.form.cnpj = "";
+            }
+            else {
+              await this.$api.post('/empresaexecutora/update', {id: this.form.id, nome: this.form.nome, nome_responsavel: this.form.nome_responsavel, contato_responsavel: this.form.contato_responsavel, cnpj: this.form.cnpj}).then(response => {
+              this.$swal.fire({
+                  title: "Empresa executora atualizada!",
+                  icon: "success"
+                });
               });
-            });
-          }
-          
+            }
+        }
+        else {
+          this.$swal.fire({
+                title: "Preencha todos os campos!",
+              });
+        }  
       }
   },
   async mounted() {

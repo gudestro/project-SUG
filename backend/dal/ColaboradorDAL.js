@@ -25,7 +25,7 @@ class ColaboradorDAL {
         var colaborador = new Colaborador();
 
         try {
-            let res = await this.Client.query(`SELECT * from colaboradores where id=${id}`);
+            let res = await this.Client.query(`SELECT * from colaboradores where id=${id} order by id asc`);
             colaborador = res.rows[0];
             return colaborador;
         }
@@ -36,7 +36,7 @@ class ColaboradorDAL {
     }
 
     async getAll(filtro) {
-        let query = "SELECT colaboradores.id, colaboradores.nome, cargo_id, cpf_cnpj, telefone, email, rua, bairro, numero, cidade, cep, cargos.nome as cargo_nome FROM colaboradores INNER JOIN cargos ON colaboradores.cargo_id = cargos.id";
+        let query = "SELECT colaboradores.nome, colaboradores.id, cargo_id, cpf_cnpj, telefone, email, rua, bairro, numero, cidade, cep, cargos.nome as cargo_nome FROM colaboradores INNER JOIN cargos ON colaboradores.cargo_id = cargos.id order by colaboradores.id asc";
 
         if (filtro != "")
             query = query + ` where ${filtro}`;

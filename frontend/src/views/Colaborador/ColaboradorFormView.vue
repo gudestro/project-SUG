@@ -34,15 +34,15 @@
               </div>
               <div class="form-group">
                 <label for="inputName">CPF/CNPJ</label>
-                <input type="text"  v-model="this.form.cpf_cnpj" class="form-control">
+                <input type="text"  v-mask="['###.###.###-##', '##.###.###/####-##']" v-model="this.form.cpf_cnpj" class="form-control">
               </div>
               <div class="form-group">
                 <label for="inputName">Telefone</label>
-                <input type="text"  v-model="this.form.telefone" class="form-control">
+                <input type="text"  v-mask="['(##) ####-####', '(##) #####-####']" v-model="this.form.telefone" class="form-control">
               </div>
               <div class="form-group">
                 <label for="inputName">Email</label>
-                <input type="text"  v-model="this.form.email" class="form-control">
+                <input type="email"  v-model="this.form.email" class="form-control">
               </div>
               <div class="form-group">
                 <label for="inputName">Rua</label>
@@ -62,7 +62,7 @@
               </div>
               <div class="form-group">
                 <label for="inputName">CEP</label>
-                <input type="text"  v-model="this.form.cep" class="form-control">
+                <input type="text"  v-mask="'#####-###'" v-model="this.form.cep" class="form-control">
               </div>
               
             </div>
@@ -104,22 +104,48 @@ export default {
   methods: {
       async salvar()
       {
-        if(!this.colaboradorId) {
-          await this.$api.post('/colaborador/add', {id: this.form.id, nome: this.form.nome, cpf_cnpj: this.form.cpf_cnpj, cargo_id: this.form.cargo_id, telefone: this.form.telefone, email: this.form.email, rua: this.form.rua, bairro: this.form.bairro, numero: this.form.numero, cidade: this.form.cidade, cep: this.form.cep}).then(response => {
-            this.$swal.fire({
-                title: "Colaborador adicionado!",
-                icon: "success"
+
+        if(
+          this.form.nome != "" &&
+          this.form.cpf_cnpj != "" &&
+          this.form.telefone != "" &&
+          this.form.email != "" &&
+          this.form.rua != "" &&
+          this.form.bairro != "" &&
+          this.form.numero != null &&
+          this.form.cidade != "" &&
+          this.form.cep != ""
+        )
+        {
+          if(!this.colaboradorId) {
+            await this.$api.post('/colaborador/add', {id: this.form.id, nome: this.form.nome, cpf_cnpj: this.form.cpf_cnpj, cargo_id: this.form.cargo_id, telefone: this.form.telefone, email: this.form.email, rua: this.form.rua, bairro: this.form.bairro, numero: this.form.numero, cidade: this.form.cidade, cep: this.form.cep}).then(response => {
+              this.$swal.fire({
+                  title: "Colaborador adicionado!",
+                  icon: "success"
+                });
               });
-            });
-            this.form.nome = "";
+              this.form.nome = "";
+              this.form.cpf_cnpj = "";
+              this.form.telefone = "";
+              this.form.email = "";
+              this.form.rua = "";
+              this.form.bairro = "";
+              this.form.numero = "";
+              this.form.cep = "";
+            }
+            else {
+              await this.$api.post('/colaborador/update', {id: this.form.id, nome: this.form.nome, cpf_cnpj: this.form.cpf_cnpj, cargo_id: this.form.cargo_id, telefone: this.form.telefone, email: this.form.email, rua: this.form.rua, bairro: this.form.bairro, numero: this.form.numero, cidade: this.form.cidade, cep: this.form.cep}).then(response => {
+              this.$swal.fire({
+                  title: "Colaborador atualizado!",
+                  icon: "success"
+                });
+              });
+            }
           }
           else {
-            await this.$api.post('/colaborador/update', {id: this.form.id, nome: this.form.nome, cpf_cnpj: this.form.cpf_cnpj, cargo_id: this.form.cargo_id, telefone: this.form.telefone, email: this.form.email, rua: this.form.rua, bairro: this.form.bairro, numero: this.form.numero, cidade: this.form.cidade, cep: this.form.cep}).then(response => {
             this.$swal.fire({
-                title: "Colaborador atualizado!",
-                icon: "success"
+                title: "Preencha todos os campos",
               });
-            });
           }
           
       }

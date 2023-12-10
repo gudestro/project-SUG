@@ -44,6 +44,9 @@
                       <th>
                           Contato
                       </th>
+                      <th>
+                          CNPJ
+                      </th>
                       <th >
                       </th>
                   </tr>
@@ -65,6 +68,9 @@
                       </td>
                       <td >
                           {{empresa.contato_responsavel}}
+                      </td>
+                      <td >
+                          {{empresa.cnpj}}
                       </td>
                       <td class="project-actions text-right">
                           

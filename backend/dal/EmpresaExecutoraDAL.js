@@ -25,7 +25,7 @@ class EmpresaExecutoraDAL {
         var empresaExecutora = new EmpresaExecutora();
 
         try {
-            let res = await this.Client.query(`SELECT * from empresas_executora where id=${id}`);
+            let res = await this.Client.query(`SELECT * from empresas_executora where id=${id} order by id asc`);
             empresaExecutora = res.rows[0];
             return empresaExecutora;
         }
@@ -36,7 +36,7 @@ class EmpresaExecutoraDAL {
     }
 
     async getAll(filtro) {
-        let query = "SELECT * from empresas_executora";
+        let query = "SELECT * from empresas_executora order by id asc";
 
         if (filtro != "")
             query = query + ` where ${filtro}`;
@@ -54,7 +54,7 @@ class EmpresaExecutoraDAL {
 
     async inserir(empresaExecutora) {
         await this.conectar();
-        let sql = "INSERT INTO empresas_executora VALUES (default,$1, $2, $3)";
+        let sql = "INSERT INTO empresas_executora VALUES (default,$1, $2, $3, $4)";
         var values = Object.values(empresaExecutora);
 
         try {
@@ -70,7 +70,7 @@ class EmpresaExecutoraDAL {
 
         await this.conectar();
 
-        let sql = "UPDATE empresas_executora SET nome=$1, nome_responsavel=$2, contato_responsavel=$3 WHERE id = $4";
+        let sql = "UPDATE empresas_executora SET nome=$1, nome_responsavel=$2, contato_responsavel=$3, cnpj=$4 WHERE id = $5";
         var values = Object.values(empresaExecutora);
 
         try {

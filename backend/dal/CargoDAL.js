@@ -25,7 +25,7 @@ class CargoDAL {
         var cargo = new Cargo();
 
         try {
-            let res = await this.Client.query(`SELECT * from cargos where id=${id}`);
+            let res = await this.Client.query(`SELECT * from cargos where id=${id} ORDER BY id ASC`);
             cargo = res.rows[0];
             return cargo;
         }
@@ -36,7 +36,7 @@ class CargoDAL {
     }
 
     async getAll(filtro) {
-        let query = "SELECT * from cargos";
+        let query = "SELECT * from cargos ORDER BY id ASC";
 
         if (filtro != "")
             query = query + ` where ${filtro}`;
@@ -87,6 +87,12 @@ class CargoDAL {
         let sql = "DELETE FROM cargos WHERE id = " + id;
 
         try {
+            let res = await this.Client.query(`SELECT * from colaboradores where cargo_id=${id}`);
+
+            if(res.rows.length > 0) {
+                return false;
+            }
+
             return (await this.Client.query(sql)).rowCount;
         }
         finally {

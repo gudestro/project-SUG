@@ -17,14 +17,14 @@ class EmpresaExecutoraController {
   }
 
   static async add(req, res, next) {
-    let empresaExecutora = new EmpresaExecutora(req.body.nome, req.body.nome_responsavel, req.body.contato_responsavel);
+    let empresaExecutora = new EmpresaExecutora(req.body.nome, req.body.nome_responsavel, req.body.contato_responsavel, req.body.cnpj);
     let dal = new EmpresaExecutoraDAL();
     await dal.inserir(empresaExecutora);
     return res.json({msg: "Nova empresa executora inserida com sucesso"});
   }
 
   static async update(req, res, next) {
-    let empresaExecutora = new EmpresaExecutora(req.body.nome, req.body.nome_responsavel, req.body.contato_responsavel);
+    let empresaExecutora = new EmpresaExecutora(req.body.nome, req.body.nome_responsavel, req.body.contato_responsavel, req.body.cnpj);
     empresaExecutora.id = req.body.id;
     let dal = new EmpresaExecutoraDAL();
     await dal.alterar(empresaExecutora);

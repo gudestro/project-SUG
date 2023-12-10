@@ -100,6 +100,9 @@ export default {
         if (result.isConfirmed) {
           this.$api.delete('cargo/delete', { data: { id: id } }).then(response => {
               this.getCargos();
+              this.$swal.fire({
+                title: response.data.msg,
+              });
           });
         }
       });

@@ -50,29 +50,37 @@ export default {
     return {
       form: {
         id: 0,
-        nome: "" 
+        nome: null 
       },
     }
   },
   methods: {
       async salvar()
       {
-        if(!this.cargoId) {
-          await this.$api.post('/cargo/add', {id: this.form.id, nome: this.form.nome}).then(response => {
-            this.$swal.fire({
-                title: "Cargo adicionado!",
-                icon: "success"
+        if(this.form.nome && this.form.nome != "")
+        {
+          if(!this.cargoId) {
+            await this.$api.post('/cargo/add', {id: this.form.id, nome: this.form.nome}).then(response => {
+              this.$swal.fire({
+                  title: "Cargo adicionado!",
+                  icon: "success"
+                });
               });
-            });
-            this.form.nome = "";
+              this.form.nome = "";
+            }
+            else {
+              await this.$api.post('/cargo/update', {id: this.form.id, nome: this.form.nome}).then(response => {
+              this.$swal.fire({
+                  title: "Cargo atualizado!",
+                  icon: "success"
+                });
+              });
+            }
           }
           else {
-            await this.$api.post('/cargo/update', {id: this.form.id, nome: this.form.nome}).then(response => {
             this.$swal.fire({
-                title: "Cargo atualizado!",
-                icon: "success"
+                title: "O nome é inválido",
               });
-            });
           }
           
       }

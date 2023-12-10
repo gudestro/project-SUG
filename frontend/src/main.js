@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import axios from 'axios';
 import VueSweetalert2 from 'vue-sweetalert2';
+import VueTheMask from 'vue-the-mask'
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 
@@ -15,4 +16,4 @@ const api = axios.create({
 
 const app = createApp(App);
 app.config.globalProperties.$api = api;
-app.use(router).use(VueSweetalert2).mount('#app')
+app.use(router).use(VueSweetalert2).use(VueTheMask).mount('#app')
